@@ -42,7 +42,7 @@
             e.preventDefault();
           
           // $snapToken
-            snap.pay('', {
+            snap.pay(' ', {
                 // Optional
                 onSuccess: function(result) {
                     /* You may add your own js here, this is just example */

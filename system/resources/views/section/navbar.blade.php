@@ -65,7 +65,7 @@
               <a class=" ps-2 d-flex cursor-pointer font-weight-bold mr-3 pr-3 align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                  @if(Auth::check())
             {{ucwords(Auth::user()->nama)}} 
-                <img src="{{url("public/$user->foto")}}" width="40" style="border-radius:50%; margin-left:10px" alt=""/>
+                <img src="{{url("public")}}/{{Auth::user()->foto}}" width="40" style="border-radius:50%; margin-left:10px" alt=""/>
 
            
               </a>
