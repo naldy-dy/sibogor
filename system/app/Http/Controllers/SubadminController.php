@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Gedung;
+use App\Models\Subadmin;
 use App\Models\Penyewaan;
 use App\Models\User;
 use Faker;

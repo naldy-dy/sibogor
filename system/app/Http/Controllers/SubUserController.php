@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 class SubUserController extends Controller{
 
      function penggunaAll(){
-        $data['user'] = Auth::user();
+        $data['user'] = Auth::guard('subadmin');
         $data['list_user'] = User::all();
       return view('sub-admin.user.all',$data);
 }

@@ -17,7 +17,7 @@
 
 <div class="card-body border-0">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-8">
 			<div class="row">
 				<div class="col-md-12 mt-3">
 					<div class="card">
@@ -80,7 +80,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 mt-3">
@@ -110,13 +110,10 @@
 
 		</div>
 
-	</div>
 	<button type="button" class="btn btn-warning btn-block pull-right" onclick="history.back();"><i class="fa fa-chevron-circle-left"></i>  Kembali</button>
 </div>
-</div>
-</div>
-</div>
-</div>
+	</div>
+
 
 <script type="text/javascript">
 	var peta1 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {

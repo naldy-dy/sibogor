@@ -12,9 +12,9 @@
   </div>
 </div>
 <div class="deznav">
-  <div class="deznav-scroll ">
-    <ul class="metismenu shadow" id="menu">
-     <li><a href="{{url('pembayaran')}}" class="ai-icon" aria-expanded="false">
+  <div class="deznav-scroll">
+    <ul class="metismenu" id="menu">
+      <li><a href="{{url('pembayaran')}}" class="ai-icon" aria-expanded="false">
        <i class="fa fa-ticket"></i>
        <span class="nav-text">Bokinganmu</span>
      </a>
@@ -30,9 +30,6 @@
    </a>
  </li>
 
-
-
 </ul>
-
 </div>
 </div>

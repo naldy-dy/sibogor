@@ -16,64 +16,6 @@
 	<!-- Isi Kodingan -->
 
 	<div class="row">
-		<div class="col-md-8">
-			<div class="card ">
-				@foreach($list_penyewaan as $k)
-				<div class="card-body bg-primary shadow" style="border-radius: 10px">
-					<div class=" align-items-center">
-						<div class="media-body">
-							<h4 class="text-white">Total Bayar</h4>
-							{{$penerima}}
-							<h2 class="title text-white">Rp. {{number_format($k->tharga)}}</h2>
-						</div>
-					</div>
-				</div>
-				<div class="card-body">
-					<table class="table table-hover">
-						<tr class="bg-dark">
-							<td colspan="2"><b>Detail Pesanan</b></td>
-						</tr>
-
-						<tr>
-							<th>Nama Gedung</th>
-							<td>: {{ucwords($k->nama_gedung)}}</td>
-						</tr>
-						<tr>
-							<th>Kode Boking</th>
-							<td>: {{strtoupper($k->kode_transaksi)}}</td>
-						</tr>
-						<tr>
-							<th>Nama Penyewa</th>
-							<td>: {{ucwords($k->nama_penyewa)}}</td>
-						</tr>
-						<tr>
-							<th>Metode Pembayaran</th>
-							<td>: {{ucwords($k->nama_transaksi)}}</td>
-						</tr>
-						<tr>
-							<th>Akun Penerima </th>
-							<td>: {{strtoupper($k->an)}}</td>
-						</tr>
-						<tr>
-							<th>Nomor Pembayaran </th>
-							<td>: {{strtoupper($k->nomor_transaksi)}}</td>
-						</tr>
-
-						<tr>
-							<th>Tgl/Jam Main </th>
-							<td>: {{$k->tgl}} Jam {{$k->jam}} WIB</td>
-						</tr>
-
-						<tr>
-							<th>Lama Boking </th>
-							<td>: {{strtoupper($k->lama)}} Jam</td>
-						</tr>
-						@endforeach
-					</table>
-				</div>
-			</div>
-
-		</div>
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-header">
@@ -138,7 +80,7 @@
 						<div class="form-group">
 							<input class="form-control shadow" type="file" name="foto" accept="image/*" required=""></input>
 						</div>
-						<button class="btn btn-primary btn-block"><i class="fa fa-save"></i> Simpan</button>
+						<button class="btn btn-primary btn-block"><i class="fa fa-save"></i> Upload</button>
 
 					</form>
 					<div class="pt-3">
@@ -148,6 +90,65 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-8">
+			<div class="card ">
+				@foreach($list_penyewaan as $k)
+				<div class="card-body bg-primary shadow" style="border-radius: 10px">
+					<div class=" align-items-center">
+						<div class="media-body">
+							<h4 class="text-white">Total Bayar</h4>
+						
+							<h2 class="title text-white">Rp. {{number_format($k->tharga)}}</h2>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover">
+						<tr class="bg-dark">
+							<td colspan="2"><b>Detail Pesanan</b></td>
+						</tr>
+
+						<tr>
+							<th>Nama Gedung</th>
+							<td>: {{ucwords($k->nama_gedung)}}</td>
+						</tr>
+						<tr>
+							<th>Kode Boking</th>
+							<td>: {{strtoupper($k->kode_transaksi)}}</td>
+						</tr>
+						<tr>
+							<th>Nama Penyewa</th>
+							<td>: {{ucwords($k->nama_penyewa)}}</td>
+						</tr>
+						<tr>
+							<th>Metode Pembayaran</th>
+							<td>: {{ucwords($k->nama_transaksi)}}</td>
+						</tr>
+						<tr>
+							<th>Akun Penerima </th>
+							<td>: {{strtoupper($k->an)}}</td>
+						</tr>
+						<tr>
+							<th>Nomor Pembayaran </th>
+							<td>: {{strtoupper($k->nomor_transaksi)}}</td>
+						</tr>
+
+						<tr>
+							<th>Tgl/Jam Main </th>
+							<td>: {{$k->tgl}} Jam {{$k->jam}} WIB</td>
+						</tr>
+
+						<tr>
+							<th>Lama Boking </th>
+							<td>: {{strtoupper($k->lama)}} Jam</td>
+						</tr>
+						@endforeach
+					</table>
+				</div>
+			</div>
+
+		</div>
+		
 	</div>
 
 

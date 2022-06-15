@@ -4,8 +4,8 @@
   }
 </style>
 @php
-    function checkRouteActive($route){
-    if(Route::current()->uri == $route) return 'active';
+function checkRouteActive($route){
+if(Route::current()->uri == $route) return 'active';
 }
 @endphp
 
@@ -49,85 +49,85 @@
 
       <li class="nav-item ms-lg-auto">
         <a class="nav-link nav-link-icon me-2 " href="{{url('kontak')}}" >
-        <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-      <label style="margin-left: 10px;">Dark Mode</label>
-    </div>
+          <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox" />
+              <div class="slider round"></div>
+            </label>
+            <label style="margin-left: 10px;">Dark Mode</label>
+          </div>
         </a>
       </li>
       
-      </ul>
-      <ul>
-        <li class="nav-item dropdown dropdown-hover ms-auto">
-              <a class=" ps-2 d-flex cursor-pointer font-weight-bold mr-3 pr-3 align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
-                 @if(Auth::check())
-            {{ucwords(Auth::user()->nama)}} 
-                <img src="{{url("public")}}/{{Auth::user()->foto}}" width="40" style="border-radius:50%; margin-left:10px" alt=""/>
+    </ul>
+    <ul>
+      <li class="nav-item dropdown dropdown-hover ms-auto">
+        <a class=" ps-2 d-flex cursor-pointer font-weight-bold mr-3 pr-3 align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+         @if(Auth::check())
+         {{ucwords(Auth::user()->nama)}} 
+         <img src="{{url("public")}}/{{Auth::user()->foto}}" width="40" style="border-radius:50%; margin-left:10px" alt=""/>
 
-           
-              </a>
-              <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
-                <div class="d-none d-lg-block">
-                  <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
-                    Dashboard
-                  </h6>
-                  @if(Auth::user()->level == "user")
-                  <a href="{{url('pembayaran')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                  @elseif(Auth::user()->level == "sub-admin")
-                 <a href="{{url('sub-admin/beranda')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                   @else(Auth::user()->level == "admin")
-                 <a href="{{url('admin/beranda')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                  @endif
-                  <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
-                    Account
-                  </h6>
-                  <a href="{{url('logout')}}" class="dropdown-item border-radius-md">
-                    <span>Logout</span>
-                  </a>
-                </div>
+         
+       </a>
+       <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
+        <div class="d-none d-lg-block">
+          <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+            Dashboard
+          </h6>
+          @if(Auth::user()->level == "1")
+          <a href="{{url('pembayaran')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @elseif(Auth::guard('subadmin'))
+          <a href="{{url('sub-admin/beranda')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @else(Auth::user()->level == "2")
+          <a href="{{url('admin/beranda')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @endif
+          <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+            Account
+          </h6>
+          <a href="{{url('logout')}}" class="dropdown-item border-radius-md">
+            <span>Logout</span>
+          </a>
+        </div>
 
-                <div class="d-lg-none">
-                  <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
-                    Dashboard
-                  </h6>
-                   @if(Auth::user()->level == "user")
-                  <a href="{{url('pembayaran')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                  @elseif(Auth::user()->level == "sub-admin")
-                 <a href="{{url('sub-admin/beranda')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                   @else(Auth::user()->level == "admin")
-                 <a href="{{url('admin/beranda')}}" class="dropdown-item border-radius-md">
-                    <span>Masuk Dashboard</span>
-                  </a>
-                  @endif
-                  </a>
-                 
-                  <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
-                    Account
-                  </h6>
-                  <a href="{{url('logout')}}" class="dropdown-item border-radius-md">
-                    <span>Logout</span>
-                  </a>
+        <div class="d-lg-none">
+          <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+            Dashboard
+          </h6>
+          @if(Auth::user()->level == "1")
+          <a href="{{url('pembayaran')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @elseif(Auth::guard('subadmin'))
+          <a href="{{url('sub-admin/beranda')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @else(Auth::user()->level == "2")
+          <a href="{{url('admin/beranda')}}" class="dropdown-item border-radius-md">
+            <span>Masuk Dashboard</span>
+          </a>
+          @endif
+        </a>
+        
+        <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+          Account
+        </h6>
+        <a href="{{url('logout')}}" class="dropdown-item border-radius-md">
+          <span>Logout</span>
+        </a>
 
-                </div>
-                 @else
-            <a href="{{url('login')}}" class="btn btn-sm mb-0 me-1 mt-2 mt-md-0"  style="background-color: #1BC4CA; color:#fff"> <b class="fa fa-key"></b> Masuk</a>
-          @endif</strong></span>
-              </div>
-            </li>
-      </ul>
-    </div>
+      </div>
+      @else
+      <a href="{{url('login')}}" class="btn btn-sm mb-0 me-1 mt-2 mt-md-0"  style="background-color: #1BC4CA; color:#fff"> <b class="fa fa-key"></b> Masuk</a>
+    @endif</strong></span>
   </div>
+</li>
+</ul>
+</div>
+</div>
 </nav>

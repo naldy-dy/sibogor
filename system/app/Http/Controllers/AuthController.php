@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Auth;
 use App\Models\User;
+use App\Models\Subadmin;
 use App\Models\Member;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\sendMail;
@@ -20,11 +21,25 @@ class AuthController extends Controller{
 
 	function prosesLogin(){
 
+		// if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+  //           $user =  Auth::User();
+  //           if($user->level == 1) return redirect()->intended('')->with('success', 'Login Berhasil');
+  //           if($user->level == 2) return redirect('admin/beranda')->with('success', 'Login Berhasil');
+
+  //       }if(Auth::guard('subadmin')->attempt(['email'=>request('email'), 'password'=>request('password')])){
+  //           return redirect('sub-admin/beranda')->with('success', 'Selamat datang kembali admin, silahkan cek semua data disini');
+
+  //       } else{
+  //           return back()-> with('danger', 'Silahkan cek email dan password anda');
+  //       }
+
+
+
 		if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
 			$user =  Auth::User();
 			if($user->level == 'sub-admin') return redirect('sub-admin/beranda')->with('seccess','Login Berhasil sebagai Admin');
 			if($user->level == 'admin') return redirect('admin/beranda')->with('seccess','Login Berhasil sebagai Admin');
-			if($user->level == 'user')return redirect()->intended('')->with('success', 'Login Berhasil');;
+			if($user->level == '1')return redirect()->intended('')->with('success', 'Login Berhasil');;
 		}else{                           
 			return back()->with('danger', 'Login Gagal, Silahkan periksa username atau password!');
 		}
@@ -58,11 +73,13 @@ class AuthController extends Controller{
 		$daftar['email'] = request('email');
 		$daftar->save();
 
-		$pendaftar = request('email');
-		 Mail::to($pendaftar)->send(new sendMail());
+		// $pendaftar = request('email');
+		//  Mail::to($pendaftar)->send(new sendMail());
 		return redirect('login')->with('success', 'Anda Berhasil Daftar, Silahkan Login');
 	}
 
 		
 	}
+
+
 }

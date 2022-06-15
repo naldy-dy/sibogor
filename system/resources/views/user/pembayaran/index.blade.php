@@ -20,7 +20,6 @@
 							<th>An</th>
 							<th>Total Bayar</th>
 							<th>Status</th>
-							<th>Generate</th>
 						</tr>
 					</thead>
 					<tbody class="fs-14">
@@ -29,14 +28,14 @@
 							<td>{{$loop->iteration}}</td>
 							<td>
 								<div class="btn-group">
-								<a href="{{url('pembayaran/bayar',$t->id)}}" class="btn btn-primary light btn-sm"><i class="fa fa-money"></i></a>
-								<button type="button" class="btn btn-primary light btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{$t->id}}">
-									<i class="fa fa-info"></i>
-								</button>
-								<button type="button" class="btn btn-primary light btn-sm" data-toggle="modal" data-target="#qr{{$t->id}}">
-									QR
-								</button>
-								<a href="{{url('pemilik',$t->id_admin)}}" class="btn btn-primary light btn-sm"><i class="fa fa-user"></i></a>
+									<a href="{{url('pembayaran/bayar',$t->id)}}" class="btn btn-primary light btn-sm"><i class="fa fa-money"></i></a>
+									<button type="button" class="btn btn-primary light btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{$t->id}}">
+										<i class="fa fa-info"></i>
+									</button>
+									<button type="button" class="btn btn-primary light btn-sm" data-toggle="modal" data-target="#qr{{$t->id}}">
+										QR
+									</button>
+									<a href="{{url('pemilik',$t->id_admin)}}" class="btn btn-primary light btn-sm"><i class="fa fa-user"></i></a>
 								</div>
 
 								<!-- Modal -->
@@ -95,18 +94,27 @@
 											</div>
 											<div class="modal-body">
 												<div class="card">
-													<div class="card-body">
-												<div id="reader" width="600px"></div>
+													<!-- <div class="card-body">
+														<div id="reader" width="600px"></div>
 														
-													</div>
+													</div> -->
 
 													<div class="card-body mt-1">
-														<input type="text" id="result" class="form-control">
+														<center>
+															<h4>Scan QR</h4>
+														{!! QrCode::size(200)->generate($t->kode_transaksi); !!}
+														<p>Kode QR akan di scan oleh admin saat ingin memulai permainan</p>
+														</center>
+														<!-- <input type="text" id="hasilscan" placeholder="Kode Pesanan" readonly="" class="form-control"> -->
+														<!-- <div class="embed-responsive embed-responsive-1by1">
+														<video id="previewKamera" style="width: 100%x;height: 100%;"></video>
+														</div>
+														<select id="pilihKamera" hidden="">
+														</select>
+														<br> -->
+													<!-- 	<button class="btn btn-info">Masuk Ruangan</button>			 -->										
 													</div>
 												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 											</div>
 										</div>
 									</div>
@@ -117,7 +125,6 @@
 							<td>{{ucwords($t->an)}}</td>
 							<td>Rp. {{number_format($t->tharga)}}</td>
 							<td> <button class="btn btn-primary btn-sm"> {{$t->status}}</button></td>
-							<td><a href="{{url('generate',$t->id)}}" class="btn btn-primary">Generate Code</a></td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -133,7 +140,7 @@
 </div>
 
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script>
+<!-- <script>
 	
 	function onScanSuccess(decodedText, decodedResult) {
   // handle the scanned code as you like, for example:
@@ -147,11 +154,95 @@ function onScanFailure(error) {
 }
 
 let html5QrcodeScanner = new Html5QrcodeScanner(
-  "reader",
-  { fps: 60, qrbox: {width: 250, height: 250} },
-  /* verbose= */ false);
+	"reader",
+	{ fps: 60, qrbox: {width: 250, height: 250} },
+	/* verbose= */ false);
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
 </script>
 
+
+<script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+<script>
+	let selectedDeviceId = null;
+	const codeReader = new ZXing.BrowserMultiFormatReader();
+	const sourceSelect = $("#pilihKamera");
+
+	$(document).on('change','#pilihKamera',function(){
+		selectedDeviceId = $(this).val();
+		if(codeReader){
+			codeReader.reset()
+			initScanner()
+		}
+	})
+
+	function initScanner() {
+		codeReader
+		.listVideoInputDevices()
+		.then(videoInputDevices => {
+			videoInputDevices.forEach(device =>
+				console.log(`${device.label}, ${device.deviceId}`)
+				);
+
+			if(videoInputDevices.length > 0){
+
+				if(selectedDeviceId == null){
+					if(videoInputDevices.length > 1){
+						selectedDeviceId = videoInputDevices[1].deviceId
+					} else {
+						selectedDeviceId = videoInputDevices[0].deviceId
+					}
+				}
+
+
+				if (videoInputDevices.length >= 1) {
+					sourceSelect.html('');
+					videoInputDevices.forEach((element) => {
+						const sourceOption = document.createElement('option')
+						sourceOption.text = element.label
+						sourceOption.value = element.deviceId
+						if(element.deviceId == selectedDeviceId){
+							sourceOption.selected = 'selected';
+						}
+						sourceSelect.append(sourceOption)
+					})
+
+				}
+
+				codeReader
+				.decodeOnceFromVideoDevice(selectedDeviceId, 'previewKamera')
+				.then(result => {
+
+                                //hasil scan
+                                console.log(result.text)
+                                $("#hasilscan").val(result.text);
+
+                                if(codeReader){
+                                	codeReader.reset()
+                                }
+                            })
+				.catch(err => console.error(err));
+
+			} else {
+				alert("Kamera tidak terdeteksi!")
+			}
+		})
+		.catch(err => console.error(err));
+	}
+
+
+	if (navigator.mediaDevices) {
+
+
+		initScanner()
+
+
+	} else {
+		alert('Tidak dapat akses kamera.');
+	}
+
+</script>
+ -->
 @endsection

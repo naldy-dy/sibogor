@@ -5,7 +5,7 @@
 
 
   <style> 
-             h1{ 
+        h1{ 
         color: #1BC4CA; 
         margin-top:30px; 
         }                 
@@ -70,7 +70,7 @@
 </head>
 
 <body class="index-page bg-gray-200 animated fadeIn">
-  <div class="gelap">
+
 
 
   <!-- Navbar -->
@@ -86,6 +86,6 @@
   @yield('content')
   @include('section.footer')
   @include('section.js')
-  </div>
+
 </body>
 </html>

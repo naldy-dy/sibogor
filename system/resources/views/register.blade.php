@@ -251,12 +251,12 @@
                 <h2 class="fs-title">Daftar Sebagai</h2>
                 <div class="radio-group">
                   <div class="group-radio shadow" title="Note :Daftar sebagai user adalah dimana anda hanya bisa mencari dan memesan gedung yang telah disediakan oleh admin admin gedung">
-                    <input type="radio" name="level" value="user" checked>
+                    <input type="radio" name="level" value="2" checked>
                     <i class="fa fa-user"></i>
                     <strong>User</strong>
                   </div>
                   <div class="group-radio shadow" title="Note :Untuk daftar menjadi admin, anda harus memiliki gedung yang ingin anda sewakan, jika anda memiliki gedung untuk mencari penghasilan tambahan silahkan daftarkan gedung anda disini sebagai admin">
-                    <input type="radio" name="level" value="admin" required>
+                    <input type="radio" name="level" value="1" required>
                     <i class="fa fa-users"></i>
                     <strong>Admin</strong>
                   </div>

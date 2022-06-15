@@ -84,12 +84,7 @@ function detail(Gedung $gedung){
 }
 
 function route(Gedung $gedung){
-  $data['list_gedung'] = Gedung::select('gedung')
-  ->join('kecamatan', 'kecamatan.id', '=', 'gedung.id_kecamatan')
-  ->join('kategori', 'kategori.id', '=', 'gedung.id_kategori')
-  ->join('user','user.id','=','gedung.id_admin')
-  ->select('kategori.*','gedung.*','user.*','user.notlp as nohp','gedung.id as idg','kategori.icon as icon','kategori.kategori as ktgr')
-  ->get();
+  $data['gedung'] = $gedung;
   return view('route',$data);
 }
 
@@ -229,9 +224,9 @@ function formSewa(){
 
   $userkey = 'faf31859267a';
 $passkey = '11wvy1w2xa';
-$telepon = request('notlp');
+$telepon = '081240515616';
 $image_link = 'https://picsum.photos/id/995/200/300.jpg';
-$caption  = 'Hi, This is WhatsApp image.';
+$caption  = 'Pesan gedung telah disewa';
 $url = 'https://console.zenziva.net/wareguler/api/sendWAFile/';
 $curlHandle = curl_init();
 curl_setopt($curlHandle, CURLOPT_URL, $url);
@@ -251,8 +246,9 @@ curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
 $results = json_decode(curl_exec($curlHandle), true);
 curl_close($curlHandle);
 
+
   $now = Carbon::now()->format('dmY');
-  $penerima = request('email');
+
 
 
   $penyewaan = new Penyewaan;
@@ -270,7 +266,7 @@ curl_close($curlHandle);
   $penyewaan->foto = 'Belum Melakukan Pembayaran';
   $penyewaan->save();
 
-  Mail::to($penerima)->send(new sendMailBoking());
+
 
   return redirect('pembayaran')->with('success', 'Data Berhasil ditambah');
 }
@@ -373,23 +369,10 @@ function update(Penyewaan $penyewaan){
 
   $penyewaan->handleUploadFoto();
   $penyewaan->save();
-   Mail::to($email)->send(new sendMailBayar());
 
 
   return redirect('pembayaran')->with('success', 'Bukti pembayaran berhasil diupload');
 }
 
-function generate(Penyewaan $penyewaan){
-  $data['penyewaan'] = $penyewaan; 
-  \QrCode::size(500)
-            ->format('png')
-            ->generate('codingdriver.com', public_path('images/qrcode.png'));
-   return view('user.pembayaran.generate',$data);
-}
-
-function testAjax(){
-    $data['list_gedung'] = Gedung::all();
-    return view('test-ajax', $data);
-  }
 
 }

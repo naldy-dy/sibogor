@@ -106,7 +106,7 @@ Route::controller(UserController::class)->group(function(){
 
 
 // sub admin controller---------------------------------------------------------
-Route::prefix('sub-admin')->middleware('auth')->group(function(){
+Route::prefix('sub-admin')->middleware('auth:subadmin')->group(function(){
         // subadmin controller
         Route::get('beranda', [SubadminController:: class, 'beranda']);
 

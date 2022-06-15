@@ -175,7 +175,7 @@
 									<div class="header-info">
 										<span class="text-black"><strong>
 											
-                                    			{{ucwords($user->nama)}}
+                                    			{{ucwords(Auth::guard('subadmin')->user()->nama)}}
                                     			<p class="fs-12 mb-0">Super Admin</p>
                                         		@else
                                           			<a href="{{url('login')}}" class="btn btn-primary btn-xs"><i class="fa fa-lock"></i> Login</a>

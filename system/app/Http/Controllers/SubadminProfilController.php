@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Gedung;
 use App\Models\AdminTransaksi;
+use App\Models\Subadmin;
 use App\Models\Penyewaan;
 use Faker;
 use Auth;
@@ -18,7 +19,7 @@ class SubadminProfilController extends Controller{
       return view('sub-admin.profil.index',$data);
 }
 
-function update(User $user){
+function update(Subadmin $user){
       $user->nama = request('nama');
       $user->email = request('email');
       $user->notlp = request('notlp');

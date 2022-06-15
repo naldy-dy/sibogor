@@ -83,15 +83,16 @@
 				</div>
 				<div class="col-md-3 ">
 					<div class="card animated fadeInDown shadow" style="height: 500px;">
-						<div class="card-header border-0" style="background-color: #1BC4CA">
+						<div class="card-body" style="background-color: #1BC4CA; height: 10vh !important">
 							<h2 style="color:#ffffff">Rekomendasi Gedung</h2>
 						</div>
-						<div class="card-body" style="overflow-x: hidden !important; overflow-y: auto ;">
-							<table class="table blur fs-12 table-hover">
+						<div class="card-body">
+							<div class="table-responsive">
+							<table class="table blur fs-12 ">
 								@foreach($list_rekomendasi->random(5) as $g)
 								<tr class="blur">
 									<td>
-										<img src="{{url('public')}}/{{$g->foto}}" width="100px" alt="">
+										<img src="{{url('public')}}/{{$g->foto}}" width="70px" height="50px" alt="">
 									</td>
 									
 									<td><a href="{{url('detail')}}/{{$g->idg}}">
@@ -103,6 +104,7 @@
 							@endforeach
 						</table>				
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -192,7 +194,7 @@ var icongedung = L.icon({
 	iconUrl : "{{url('public')}}/{{$p->ic}}",
 	iconSize : [40, 55],
 });
-var informasi = '<table class="table" width="550px"><tr><td colspan="4"><img src="{{url('public')}}/{{$p->foto}}" height="100px" width="100%"></td></tr><tr><td>Nama</td><td>: {{ucwords($p->nama)}}</td></tr><tr><td>Kategori</td><td>: {{ucwords($p->kategori)}}</td></tr><tr><td>Harga/Jam</td><td>: Rp.{{number_format($p->harga)}}</td></tr><tr><td colspan="2"><a href="{{url('detail')}}/{{$p->idg}}" class="btn btn-info btn-sm btn-block" style="color:#ffffff">Detail</a>  <a href="{{url('route')}}/{{$p->idg}}" class="btn btn-success btn-sm btn-block" style="color:#ffffff">Route</a><td></tr></table>'
+var informasi = '<table class="table" width="550px"><tr><td colspan="4"><img src="{{url('public')}}/{{$p->foto}}" height="100px" width="100%"></td></tr><tr><td>Nama</td><td>: {{ucwords($p->nama)}}</td></tr><tr><td>Kategori</td><td>: {{ucwords($p->kategori)}}</td></tr><tr><td>Harga/Jam</td><td>: Rp.{{number_format($p->harga)}}</td></tr><tr><td colspan="2"><a href="{{url('detail')}}/{{$p->idg}}" class="btn btn-info btn-sm btn-block" style="color:#ffffff">Detail</a>  <a href="{{url('gedung')}}/{{$p->idg}}/route" class="btn btn-success btn-sm btn-block" style="color:#ffffff">Route</a><td></tr></table>'
 
 L.marker([<?= $p->posisi ?>],{icon : icongedung}).addTo(map)
 .bindPopup(informasi)
