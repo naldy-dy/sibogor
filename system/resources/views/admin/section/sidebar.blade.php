@@ -20,15 +20,15 @@
            </a>
        </li>
 
-        <li><a href="{{url('admin')}}/gedung" class="ai-icon" aria-expanded="false">
-                <i class="fa fa-university"></i>
-                   <span class="nav-text">Gedung Anda</span>
-               </a>
-        </li>
         <li><a href="{{url('admin')}}/penyewaan" class="ai-icon" aria-expanded="false">
              <i class="flaticon-381-settings-2"></i>
                 <span class="nav-text">Penyewaan</span>
             </a>
+        </li>
+        <li><a href="{{url('admin')}}/gedung" class="ai-icon" aria-expanded="false">
+                <i class="fa fa-university"></i>
+                   <span class="nav-text">Gedung Anda</span>
+               </a>
         </li>
            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                <i class="flaticon-381-networking"></i>

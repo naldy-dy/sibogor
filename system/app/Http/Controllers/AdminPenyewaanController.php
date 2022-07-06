@@ -26,22 +26,29 @@ class AdminPenyewaanController extends Controller{
       ->join('admin_transaksi','admin_transaksi.id','=','penyewaan.id_pembayaran')
       ->join('transaksi','transaksi.id','=','admin_transaksi.id_transaksi')
       ->join('gedung','gedung.id','=','penyewaan.id_gedung')
-      ->select('penyewaan.*','penyewaan.id as idp','penyewaan.foto as bukti','penyewaan.an as nama_penyewa',
+      ->select('penyewaan.*','penyewaan.id as id','penyewaan.foto as bukti','penyewaan.an as nama_penyewa',
         'admin_transaksi.*','admin_transaksi.nama as an','admin_transaksi.no as nomor_transaksi',
         'transaksi.*','transaksi.nama as nama_transaksi',
         'gedung.*','gedung.nama as nama_gedung',DB::raw('(gedung.harga * penyewaan.lama) as tharga')
       )
       ->orderBy('penyewaan.id','desc')
+      ->where('status', 2)
       ->where('penyewaan.id_admin', Auth::id())
       ->where('penyewaan.tgl','>',$now)
       ->get();
       return view('admin.penyewaan.index',$data);
 }
 
-function status(Penyewaan $status){
-    $status->status = request('status');
-    $status->save();
-     return back()->withInput()->with('success', 'Status berhasil dirubah');
+function statusterima(Penyewaan $penyewaan){
+    $penyewaan->status = 3;
+    $penyewaan->save();
+    return back()->with('success', 'Status berhasil dirubah');
+}
+
+function statustolak(Penyewaan $penyewaan){
+    $penyewaan->status = 0;
+    $penyewaan->save();
+    return back()->with('danger', 'Penyewaan telah ditolak');
 }
 
 function destroy(Penyewaan $penyewaan){

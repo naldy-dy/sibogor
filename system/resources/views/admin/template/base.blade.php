@@ -58,7 +58,9 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            @include('sub-admin.utils.notif')
+           <div class="container">
+                @include('sub-admin.utils.notif')
+           </div>
            
            @yield('content')
         </div>

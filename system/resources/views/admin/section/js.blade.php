@@ -109,6 +109,11 @@
 				carouselReview();
 			}, 1000); 
 		});
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': '{{csrf_token()}}'
+			};
+		})
 	</script>
 
 

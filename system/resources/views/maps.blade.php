@@ -12,7 +12,7 @@
 							<form action="{{url('cari')}}" method="post">
 								@csrf
 								<div class="input-group">
-									<input type="text" name="nama" class="form-control form-control-sm blur shadow" placeholder="Cari Gedung ..">
+									<input type="text" name="nama" value="{{ old('nama')}}" class="form-control form-control-sm blur shadow" placeholder="Cari Gedung ..">
 									<div class="input-group-append">
 										<button class="btn btn-info" style="background-color: #1BC4CA">Cari</button>
 									</div>
@@ -71,25 +71,22 @@
 												</div>
 											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="shadow" id="map" style="width: 100%; height: 460px;border-radius: 10px;"></div>
+					<div class="shadow" id="map" style="width: 100%; height: 400px;border-radius: 10px;"></div>
 				</div>
 				<div class="col-md-3 ">
-					<div class="card animated fadeInDown shadow" style="height: 500px;">
-						<div class="card-body" style="background-color: #1BC4CA; height: 10vh !important">
-							<h2 style="color:#ffffff">Rekomendasi Gedung</h2>
+					<div class="card animated fadeInDown shadow">
+						<div class="card-header" style="background-color: #1BC4CA; !important">
+							<h2 style="color:#ffffff"> Gedung Lainnya</h2>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 							<table class="table blur fs-12 ">
-								@foreach($list_rekomendasi->random(5) as $g)
+								@foreach($list_rekomendasi as $g)
 								<tr class="blur">
 									<td>
 										<img src="{{url('public')}}/{{$g->foto}}" width="70px" height="50px" alt="">

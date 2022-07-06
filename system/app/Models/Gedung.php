@@ -13,6 +13,12 @@ class Gedung extends Model{
 	protected $table = 'gedung';
 	 use HasFactory, Notifiable;
 
+      function admin(){
+        return $this->belongsTo(User::class, 'id_admin');
+    }
+     
+     
+
 function handleUploadFoto(){
         if(request()->hasFile('foto')){
             $this->handleDeleteFoto();

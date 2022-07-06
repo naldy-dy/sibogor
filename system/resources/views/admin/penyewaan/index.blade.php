@@ -29,19 +29,19 @@
 						<td>{{$loop->iteration}}</td>
 						<td>
 							<div class="btn-group">
-								<button type="button" class="btn btn-sm btn-primary light" data-toggle="modal" title="Info" data-target="#info{{$k->idp}}"><i class="fa fa-info " style="color: #000000; font-weight: bold;"></i></button>
+								<button type="button" class="btn btn-sm btn-primary light" data-toggle="modal" title="Info" data-target="#info{{$k->id}}"><i class="fa fa-info " style="color: #000000; font-weight: bold;"></i></button>
 
-								<button type="button" class="btn btn-sm btn-primary light"  style="color: #000000; font-weight: bold;" title="Bukti Pembayaran" data-toggle="modal" data-target="#bukti{{$k->idp}}">
+								<button type="button" class="btn btn-sm btn-primary light"  style="color: #000000; font-weight: bold;" title="Bukti Pembayaran" data-toggle="modal" data-target="#bukti{{$k->id}}">
 									<i class="fa fa-money"></i>
 								</button>
 
-								<button type="button" class="btn btn-sm btn-primary light"  style="color: #000000; font-weight: bold;" title="Bukti Pembayaran" data-toggle="modal" data-target="#kodeqr{{$k->idp}}">
+								<button type="button" class="btn btn-sm btn-primary light"  style="color: #000000; font-weight: bold;" title="Bukti Pembayaran" data-toggle="modal" data-target="#kodeqr{{$k->id}}">
 									<i class="fa fa-qrcode"></i>
 								</button>
 
 
 								<!-- Modal QR-->
-								<div class="modal fade" id="kodeqr{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal fade" id="kodeqr{{$k->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -82,18 +82,16 @@
 						<td>
 
 							<div class="btn-group">
-								<form action="{{url('admin/penyewaan/status',$k->idp)}}" method="post">
+								<form action="{{url('admin/penyewaan/status-terima',$k->id)}}" method="post">
 									@csrf
 									@method('PUT')
-									<input class="form-control" type="hidden" value="1"></input>
-									<button class="btn btn-success"><i class="fa fa-check"></i></button>
+									<button class="btn btn-success" onclick="return confirm('Yakin menerima penyewaan?')"><i class="fa fa-check"></i></button>
 								</form>
 
-								<form action="{{url('admin/penyewaan/status',$k->idp)}}" method="post">
+								<form action="{{url('admin/penyewaan/status-tolak',$k->id)}}" method="post">
 									@csrf
 									@method('PUT')
-									<input class="form-control" type="hidden" value="2"></input>
-									<button class="btn btn-danger"><i class="fa fa-times"></i></button>
+									<button class="btn btn-danger" onclick="return confirm('Yakin menolak penyewaan?')"><i class="fa fa-times"></i></button>
 								</form>
 							</div>
 
@@ -101,7 +99,7 @@
 						</td>
 						<td class="text-center">{{ucwords($k->nama_penyewa)}}</td>
 						<!-- Modal -->
-						<div class="modal fade" id="bukti{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="bukti{{$k->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -123,7 +121,7 @@
 						</div>
 
 						<!-- info -->
-						<div class="modal fade" id="info{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="info{{$k->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">

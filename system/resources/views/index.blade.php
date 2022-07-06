@@ -55,7 +55,7 @@
            <form action="{{url('cari')}}" method="post">
                 @csrf
               <div class="input-group">
-                <input type="text" name="nama" class="form-control shadow form-control-sm blur shadow" style="border-color:blue " placeholder="Cari Gedung ..">
+                <input type="text" name="nama" value="{{ old('nama')}}" class="form-control shadow form-control-sm blur shadow" style="border-color:blue " placeholder="Cari Gedung ..">
                 <div class="input-group-append">
                   <button class="btn btn-info"><i class="fa fa-search"></i></button>
                 </div>

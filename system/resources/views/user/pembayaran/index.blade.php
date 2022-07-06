@@ -9,26 +9,29 @@
 
 		</div>
 		<div class="card-body">
-			<div class="table-responsive" style="overflow-x:scroll;">
-				<table id="example" class="display table-datatable table" style="width:150%">
-					<thead>
+			<div class="table-responsive">
+				<table id="example" class="display table-datatable table">
+					<thead class="bg-light">
 						<tr>
-							<th width="30px">No</th>
 							<th>Action</th>
+							<th>Status</th>
 							<th>Kode Boking</th>
 							<th>Tgl Boking/Jam</th>
 							<th>An</th>
 							<th>Total Bayar</th>
-							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody class="fs-14">
 						@foreach($list_penyewaan->sortByDesc('id') as $t)
 						<tr>
-							<td>{{$loop->iteration}}</td>
+
+
 							<td>
 								<div class="btn-group">
+									@if($t->status == 1)
 									<a href="{{url('pembayaran/bayar',$t->id)}}" class="btn btn-primary light btn-sm"><i class="fa fa-money"></i></a>
+									@else
+									@endif
 									<button type="button" class="btn btn-primary light btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{$t->id}}">
 										<i class="fa fa-info"></i>
 									</button>
@@ -120,11 +123,26 @@
 									</div>
 								</div>
 							</td>
+
+							<td>
+								@if($t->status == 0)
+								 <span class="bagde badge-danger badge-pill"><i class="fa fa-times"></i> Ditolak</span>
+								 @elseif($t->status == 1)
+								 <span class="badge badge-danger badge-sm badge-pill"> <i class="fa fa-warning"></i> Lakukan Pembayaran</span>
+								  @elseif($t->status == 2)
+								 <span class="badge badge-warning badge-sm badge-pill"><i class="fa fa-warning"></i> Menunggu Konfirmasi</span>
+								 @elseif($t->status == 3)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i>Diterima</span>
+								  @elseif($t->status == 4)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i>Selesai</span>
+								 @endif
+							</td>
+
 							<td>{{strtoupper ($t->kode_transaksi)}}</td>
 							<td>{{ucwords($t->tgl)}}/{{$t->jam}}</td>
 							<td>{{ucwords($t->an)}}</td>
 							<td>Rp. {{number_format($t->tharga)}}</td>
-							<td> <button class="btn btn-primary btn-sm"> {{$t->status}}</button></td>
+							
 						</tr>
 						@endforeach
 					</tbody>

@@ -37,7 +37,7 @@ if(Route::current()->uri == $route) return 'active';
       </li>
       <li class="nav-item ms-lg-auto">
         <a class="nav-link nav-link-icon me-2" href="{{url('berita')}}" >
-          <p class="d-inline text-sm z-index-1 {{checkRouteActive('berita')}} {{checkRouteActive('berita/baca/{berita}')}}  font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Berita">SpotLight</p>
+          <p class="d-inline text-sm z-index-1 {{checkRouteActive('berita')}} {{checkRouteActive('berita/baca/{berita}')}}  font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Berita">SportLight</p>
         </a>
       </li>
 

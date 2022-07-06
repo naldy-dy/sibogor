@@ -19,6 +19,7 @@
 			<form action="{{url('form-boking/biodata')}}" method="post">
 				@csrf
 				<div class="row">
+					<input type="hidden" value="{{$gedung->admin->notlp}}" name="admin">
 					<div class="col-md-6 ">
 						<h4>Biodata Pemesanan</h4>
 						<div class="form-group">

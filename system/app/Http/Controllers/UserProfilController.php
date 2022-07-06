@@ -1,10 +1,7 @@
 <?php 
 
 namespace App\Http\Controllers;
-use App\Models\Gedung;
-use App\Models\AdminTransaksi;
-use App\Models\Penyewaan;
-use App\Models\User;
+use App\Models\{Gedung, AdminTransaksi, Penyewaan, User};
 use Faker;
 use Auth;
 use Hash;

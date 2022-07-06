@@ -88,7 +88,7 @@ crossorigin=""></script>
             @csrf
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <input type="email" name="email" id="form1Example13" class="form-control shadow" placeholder="Email" required />
+              <input type="email" name="email" value="{{old('email')}}" id="form1Example13" class="form-control shadow" placeholder="Email" required />
             </div>
 
             <!-- Password input -->
@@ -121,6 +121,7 @@ crossorigin=""></script>
             <a class="btn btn-danger btn-lg btn-block" style="background-color: #0D898D" href="{{url('daftar')}}" role="button">
         Daftar
             </a>
+            <a href="{{url('lupa-passwords')}}" style="float: right">Lupa Password ?</a>
 
             </form>
           </div>

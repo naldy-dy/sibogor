@@ -22,6 +22,13 @@ public function getTglAttribute(){
         return Carbon::parse($this->attributes['jam'])->translatedFormat('H:i');
     }
 
+    public function penyewa(){
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+     
+
+
 function handleUploadFoto(){
         if(request()->hasFile('foto')){
             $this->handleDeleteFoto();

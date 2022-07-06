@@ -62,7 +62,7 @@ navigator.geolocation.getCurrentPosition(function(location) {
   var map = L.map('map', {
 	center: latlng,
 	zoom: 13,
-	layers: [peta2],
+	layers: [peta1],
 });
 
 // 4. basemaps

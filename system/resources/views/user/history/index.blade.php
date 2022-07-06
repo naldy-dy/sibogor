@@ -23,7 +23,7 @@
 						</tr>
 					</thead>
 					<tbody class="fs-14">
-						@foreach($list_penyewaan->sortByDesc('id') as $t)
+						@foreach($list_penyewaan as $t)
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>

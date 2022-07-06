@@ -11,8 +11,13 @@ use Illuminate\Support\Str;
 
 class Galeri extends Model{
     protected $table = 'galeri';
-     
+     use HasFactory, Notifiable;
 
+      function admin(){
+        return $this->belongsTo(User::class, 'id_admin');
+    }
+     
+     
 
 function handleUploadFoto(){
         if(request()->hasFile('foto')){
@@ -20,7 +25,7 @@ function handleUploadFoto(){
             $foto = request()->file('foto');
             $destination = "images/galeri";
             $randomStr = Str::random(5);
-            $filename = request('gedung').$foto->extension();
+            $filename = $this->id."-".time()."-".$randomStr.".".$foto->extension();
             $url = $foto->storeAs($destination, $filename);
             $this->foto = "app/".$url;
             $this->save;

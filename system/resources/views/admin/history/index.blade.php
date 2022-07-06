@@ -17,10 +17,10 @@
 						<tr>
 							<th width="30px">No</th>
 							<th width="50px" class="text-center">Action</th>
+							<th>Status</th>
 							<th>Kode Boking</th>
 							<th>Tgl/Jam Main</th>
 							<th>Lama Main</th>
-							<th>Status</th>
 							<th class="text-center">Nama Penyewa</th>
 						</tr>
 					</thead>
@@ -36,26 +36,22 @@
 								</button>
 							</div>
 						</td>
+						<td>
+							@if($k->status == 0)
+								 <span class="bagde badge-danger badge-pill"><i class="fa fa-times"></i> Ditolak</span>
+								 @elseif($k->status == 1)
+								 <span class="badge badge-danger badge-sm badge-pill"> <i class="fa fa-warning"></i> Lakukan Pembayaran</span>
+								  @elseif($k->status == 2)
+								 <span class="badge badge-warning badge-sm badge-pill"><i class="fa fa-warning"></i> Menunggu Konfirmasi</span>
+								 @elseif($k->status == 3)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i> Diterima</span>
+								  @elseif($k->status == 4)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i> Selesai</span>
+								 @endif
+						</td>
 						<td >{{strtoupper($k->kode_transaksi)}}</td>
 						<td >{{$k->tgl}}, {{$k->jam}}</td>
 						<td>{{$k->lama}} Jam</td>
-						<td>
-
-							
-									@if ($k->status == "Ditolak")
-									<button class="btn btn-sm btn-danger" style="background: red; border: none;">{{$k->status}}</button>
-									@elseif ($k->status == "Disetujui")
-									<button class="btn btn-sm btn-primary" style="background: #47D13C; border: none;">{{$k->status}}</button>
-									@elseif ($k->status == "Selesai")
-									<button class="btn btn-sm btn-info" style="background: #47D13C; border: none;">{{$k->status}}</button>
-									@elseif ($k->status == "Belum Disetujui")
-									<button class="btn btn-sm btn-light">{{$k->status}}</button>
-									
-										@endif
-							</form>
-
-							
-						</td>
 						<td class="text-center">{{ucwords($k->nama_penyewa)}}</td>
 						<!-- Modal -->
 						<div class="modal fade" id="bukti{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -108,7 +104,17 @@
 											Metode Pembayaran : <b>{{ucwords($k->nama_transaksi)}}</b><br>
 											Akun Penerima : <b>{{strtoupper($k->an)}}</b> <br>
 											Nomor Penerima : <b>{{strtoupper($k->nomor_transaksi)}}</b><br>
-											Staus Penerimaan : <b>{{strtoupper($k->status)}}</b> <br>
+											Staus Penerimaan : @if($k->status == 0)
+								 <span class="bagde badge-danger badge-pill"><i class="fa fa-times"></i> Ditolak</span>
+								 @elseif($k->status == 1)
+								 <span class="badge badge-danger badge-sm badge-pill"> <i class="fa fa-warning"></i> Lakukan Pembayaran</span>
+								  @elseif($k->status == 2)
+								 <span class="badge badge-warning badge-sm badge-pill"><i class="fa fa-warning"></i> Menunggu Konfirmasi</span>
+								 @elseif($k->status == 3)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i> Diterima</span>
+								  @elseif($k->status == 4)
+								 <span class="badge badge-success badge-sm badge-pill"><i class="fa fa-check"></i> Selesai</span>
+								 @endif <br>
 										</p>
 									</div>
 								</div>

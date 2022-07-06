@@ -38,7 +38,6 @@ class UserController extends Controller{
    $data['user'] = Auth::user();
    $data['hitung_gedung'] = Gedung::all()->count('id');
    $data['hitung_user'] = User::all()->count('id');
-
    $data['list_berita'] = Berita::all();
 
    $data['list_kecamatan'] = Kecamatan::all();
@@ -222,51 +221,52 @@ function form(Gedung $gedung){
 // mengisi form penyewaan
 function formSewa(){
 
-  $userkey = 'faf31859267a';
-$passkey = '11wvy1w2xa';
-$telepon = '081240515616';
-$image_link = 'https://picsum.photos/id/995/200/300.jpg';
-$caption  = 'Pesan gedung telah disewa';
-$url = 'https://console.zenziva.net/wareguler/api/sendWAFile/';
-$curlHandle = curl_init();
-curl_setopt($curlHandle, CURLOPT_URL, $url);
-curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-curl_setopt($curlHandle, CURLOPT_POST, 1);
-curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-    'userkey' => $userkey,
-    'passkey' => $passkey,
-    'to' => $telepon,
-    'link' => $image_link,
-    'caption' => $caption
-));
-$results = json_decode(curl_exec($curlHandle), true);
-curl_close($curlHandle);
-
+  // 0 = ditolak
+  // 1 pesanan baru
+  // 2 sudah bayar
+  // 3 diterima
+  // 4 masuk lapangan
 
   $now = Carbon::now()->format('dmY');
-
-
-
+  $kode = "BKG".time();
   $penyewaan = new Penyewaan;
   $penyewaan->id_user = Auth::id();
   $penyewaan->id_gedung = request('id_gedung');
   $penyewaan->id_admin = request('id_admin');
   $penyewaan->id_pembayaran = request('id_pembayaran');
-  $penyewaan->kode_transaksi = "BKG".time();
+  $penyewaan->kode_transaksi = $kode;
   $penyewaan->an = request('an');
   $penyewaan->tgl = request('tanggal');
   $penyewaan->jam = request('jam');
   $penyewaan->lama = request('lama');
   $penyewaan->notlp = request('notlp');
-  $penyewaan->status = 'Belum Disetujui';
+  $penyewaan->status = 1;
   $penyewaan->foto = 'Belum Melakukan Pembayaran';
   $penyewaan->save();
 
 
+// $userkey = '4888efcfc685';
+// $passkey = '467fd9ba6c1d7673de1cfc9b';
+$telepon = request('admin');
+// $image_link = 'https://picsum.photos/id/995/200/300.jpg';
+// $message  = '*'.$kode.'*'.' Seseorang telah melakukan pesana ke gedung anda atas nama '.'*'.request('an').'*'.' silahkan cek pesanan di aplikasi sibogor';
+// $url = 'https://console.zenziva.net/wareguler/api/sendWA/';
+// $curlHandle = curl_init();
+// curl_setopt($curlHandle, CURLOPT_URL, $url);
+// curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+// curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+// curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+// curl_setopt($curlHandle, CURLOPT_POST, 1);
+// curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+//     'userkey' => $userkey,
+//     'passkey' => $passkey,
+//     'to' => $telepon,
+//     'message' => $message
+// ));
+// $results = json_decode(curl_exec($curlHandle), true);
+// curl_close($curlHandle);
 
   return redirect('pembayaran')->with('success', 'Data Berhasil ditambah');
 }
@@ -274,6 +274,10 @@ curl_close($curlHandle);
 // User page------------------
 
 function beranda(){
+
+   $loggedUser = request()->user();
+        if($loggedUser->level != 1) return abort(404,'Anda Tidak Punya Akses');
+
   $data['user'] = Auth::user();
   $data['list_kecamatan'] = Kecamatan::all();
   $data['list_gedung'] = Gedung::select('gedung.*','gedung.id as idg','kategori.icon as ic','kategori.kategori as kategori')
@@ -309,6 +313,7 @@ function formPembayaran(){
   ->join('admin_transaksi','admin_transaksi.id','=','penyewaan.id_pembayaran')
   ->join('transaksi','transaksi.id','=','admin_transaksi.id_transaksi')
  ->where('id_user',$penyewa)
+ ->whereBetween('status', [1,3])
  ->where('tgl','>',$now)
  ->get();
  return view('user.pembayaran.index',$data);
@@ -322,8 +327,10 @@ function history(){
   DB::raw('(gedung.harga * penyewaan.lama) as tharga')) 
             // ->join('admin_transaksi','admin_transaksi.id','=','penyewaan.id_pembayaran')
  ->join('gedung', 'gedung.id', '=', 'penyewaan.id_gedung')
- ->where('id_user',$penyewa)
- ->where('tgl','<',$now)
+ ->where('id_user',Auth::id())
+ ->where('tgl','>',$now)
+ ->where('status', 4)
+ ->orderBy('tgl', 'DESC')
  ->get();
  return view('user.history.index',$data);
 }
@@ -368,6 +375,7 @@ function pemilik(User $user){
 function update(Penyewaan $penyewaan){
 
   $penyewaan->handleUploadFoto();
+  $penyewaan->status = 2;
   $penyewaan->save();
 
 

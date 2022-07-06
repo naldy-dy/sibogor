@@ -46,6 +46,12 @@ Route::controller(AuthController::class)->group(function(){
         Route::get('logout', 'Logout');
 
         Route::get('daftar', 'register');
+        Route::get('lupa-passwords', 'lupapasswords');
+        Route::post('lupa-passwords', 'proseslupapasswords');
+        Route::get('otp/{id}', 'otp');
+        Route::get('otp/ganti-nomor/{id}', 'otpwhatsapp');
+        Route::put('otp/{user}/ganti-nomor', 'prosessimpannomor');
+        Route::post('otp', 'updateotp');
         Route::post('daftar', 'prosesDaftar');
 });
 
@@ -173,6 +179,7 @@ Route::prefix('sub-admin')->middleware('auth:subadmin')->group(function(){
 Route::prefix('admin')->middleware('auth')->group(function(){
         
         Route::get('beranda', [AdminController:: class, 'beranda']);
+        Route::get('scan-qr/{kode}', [AdminController:: class, 'terima']);
         Route::get('gedung', [AdminGedungController:: class, 'index']);
         Route::get('gedung/create', [AdminGedungController:: class, 'create']);
         Route::post('gedung/create', [AdminGedungController:: class, 'store']);
@@ -195,7 +202,8 @@ Route::prefix('admin')->middleware('auth')->group(function(){
 
         // penyewaan controller
         Route::get('penyewaan', [AdminPenyewaanController:: class, 'index']);
-        Route::put('penyewaan/status/{status}', [AdminPenyewaanController:: class, 'status']);
+        Route::put('penyewaan/status-terima/{penyewaan}', [AdminPenyewaanController:: class, 'statusterima']);
+        Route::put('penyewaan/status-tolak/{penyewaan}', [AdminPenyewaanController:: class, 'statustolak']);
         Route::get('penyewaan/create', [AdminPenyewaanController:: class, 'create']);
         Route::post('penyewaan/create', [AdminPenyewaanController:: class, 'store']);
         Route::get('penyewaan/edit/{penyewaan}', [AdminPenyewaanController:: class, 'edit']);

@@ -16,26 +16,19 @@ use Illuminate\Database\Eloquent\Builder;
 class AdminGaleriController extends Controller{
 
 function index(){
-      $data['user'] = Auth::user();
-      $id_admin = Auth::id();
-      $data['list_galeri'] = Galeri::select('galeri')
-      ->join('gedung','gedung.id','galeri.id_gedung')
-      ->select('gedung.*','galeri.*')
-      ->where('galeri.id_admin',Auth::id())
-      ->get();
+      $data['list_galeri'] = Galeri::where('id_admin', Auth::id())->get();
+      $data['list_gedung'] = Gedung::where('id_admin', Auth::id())->get();
       return view('admin.galeri.index',$data);
 }
-function create(){
-    $data['user'] = Auth::user();
-    $id_admin = Auth::id();
-    $data['list_gedung'] = Gedung::all();
-    return view('admin.galeri.create',$data);
-}
 
-function store(){
+function store(Request $request){
+
+   $validated = $request->validate([
+        'foto' => 'required|unique:galeri|max:3000',
+    ]);
     $galeri = new Galeri;
     $galeri->id_admin = Auth::id();
-    $galeri->id_gedung = request('gedung');
+    $galeri->id_gedung = request('id_gedung');
     $galeri->handleUploadFoto();
     $galeri->save();
 

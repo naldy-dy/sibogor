@@ -78,7 +78,11 @@
 						@csrf
 						@method('PUT')
 						<div class="form-group">
-							<input class="form-control shadow" type="file" name="foto" accept="image/*" required=""></input>
+							<span>FIle upload pembayaran</span>
+							<input type="file" name="foto" class="form-control mt-3 shadow" style="margin-bottom: 10px;" id="file1" onchange="return fileValidation()" accept="image/*" required> 
+								
+
+									<div id="imagePreview1"></div>
 						</div>
 						<button class="btn btn-primary btn-block"><i class="fa fa-save"></i> Upload</button>
 
@@ -209,4 +213,20 @@
 		</div>
 	</div> -->
 </div>
+
+<script>
+  function fileValidation(){
+    var fileInput = document.getElementById('file1');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        //Image preview
+        if (fileInput.files && fileInput.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById('imagePreview1').innerHTML = '<img src="'+e.target.result+'" class="shadow" style="width:50%; border-radius:10px;"/>';
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        }
+      }
+    </script>
 @endsection

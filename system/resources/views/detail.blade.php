@@ -9,7 +9,7 @@
 				<h3 style="color: #E0BE1E;font-weight: 600" class="fs-30">{{ucwords($gedung->nama)}}</h3>
 			</div>
 			
-			<a href="{{url('form-boking')}}/{{$gedung->id}}" class="btn shadow rounded btn-primary mb-3">Boking Now Rp. {{$gedung->harga}}/Jam </a>
+			<a href="{{url('form-boking')}}/{{$gedung->id}}" class="btn shadow rounded btn-warning mb-3">Boking Now Rp. {{$gedung->harga}}/Jam </a>
 		</div>
 	</div>
 
@@ -84,7 +84,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 mt-3">
-						<div id="map" style="width: 100%; height: 450px;"></div>		
+						<div id="map" style="width: 100%; height: 450px; border-radius: 10px" class="shadow"></div>		
 					</div>
 					<div class="col-md-12 pt-5">
 						<div class="card">
@@ -96,8 +96,8 @@
 								<div class="row">
 
 									@foreach($list_galeri as $g)
-									<div class="col-md-6">
-										<img src="{{url('public')}}/{{$g->foto}}" class="pt-3" width="100%">
+									<div class="col-md-6 col-6">
+										<img src="{{url('public')}}/{{$g->foto}}" class="pt-3" width="100%" height="150px">
 									</div>
 									@endforeach
 								</div>
