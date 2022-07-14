@@ -49,7 +49,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        @include('admin.section.sidebar')
+      @include('section.section-all.sidebar')
         <!--**********************************
             Sidebar end
         ***********************************-->

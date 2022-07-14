@@ -243,7 +243,7 @@
           @endif
           @include('sub-admin.utils.notif')
           
-          <form id="msform" action="{{url('daftar')}}" method="post">
+          <form id="msform" action="{{url('daftar')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="">
              <!-- progressbar -->

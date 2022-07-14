@@ -14,11 +14,23 @@ use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Facades\Password;
 use Crypt;
-
+use Arr;
+use Carbon\Carbon;
 
 class AuthController extends Controller{
 
 	function Login(){
+		$now = Carbon::now()->format('H:i');
+		if(Carbon::now() <= '18:00'){
+			echo "sekarang malam";
+		} else{
+			echo "sekarang siang";
+		}
+		$hasil = 'Waktu sekarang '.$now;
+	
+		@dd($hasil);
+
+
 		$user =  Auth::User();
 		return view('login');
 	}
@@ -31,6 +43,7 @@ class AuthController extends Controller{
 			if($user->level == 2 AND $user->status_verifikasi == 1){
 				return redirect('admin/beranda')->with('seccess','Login Berhasil sebagai Admin');
 			} elseif($user->status_verifikasi != 1){
+				Auth::logout();
 				return back()->with('danger', 'Akun belum terverifikasi');
 			}
 			if($user->level == 1 AND $user->status_verifikasi == 1){
@@ -39,7 +52,7 @@ class AuthController extends Controller{
 				return back()->with('danger', 'Akun belum terverifikasi');
 			}
 		}else{                           
-			return back()->with('danger', 'Login Gagal, Silahkan periksa email atau password!');
+			return redirect()->with('danger', 'Login Gagal, Silahkan periksa email atau password!');
 		}
 		
 	}
@@ -57,7 +70,7 @@ class AuthController extends Controller{
 	}
 
 	function prosessimpannomor(User $user){
-		$rand = Str::random(6);
+		$rand = mt_rand(100000, 999999);
 		$user->notlp = request('notlp');
 		$user->status_verifikasi = $rand;
 		$user->save();
@@ -140,14 +153,19 @@ class AuthController extends Controller{
 	}
 
 	function updateotp(){
-		$kode = request('kode');
-		User::where('status_verifikasi', $kode)
-		->update([
+		$kode = Request('kode');
+		$cekkode = User::where('status_verifikasi',$kode);
+		if($cekkode->count()){
+			 User::where('status_verifikasi', $kode)
+			->update([
 			'status_verifikasi' =>  1,
 		]);
 
 
 		return redirect('login')->with('success','Akun berhasil terdaftar, silahkan login kembali !!!');
+		}else{
+			return back()->with('danger','Kode OTP salah, silahkan periksa kode OTP anda');
+		}
 	}
 
 
@@ -171,38 +189,43 @@ class AuthController extends Controller{
 	// 	return back()->with('danger', 'Email sudah terdaftar, Silahkan login');
 	// 	// end
 	// } else {
-		$rand = Str::random(6);
+		$request->validate([
+			'email' => 'required|unique:user',
+			'notlp' => 'required|unique:user',
+		]);
+
+		$rand = mt_rand(100000, 999999);
 		$daftar = new User;
 		$daftar['nama'] = request('nama');
-		$daftar->handleUploadFoto();
 		$daftar['level'] = request('level');
 		$daftar['notlp'] = request('notlp');
 		$daftar['password'] = bcrypt(request('password'));
 		$daftar['email'] = request('email');
 		$daftar['status_verifikasi'] = $rand;
 		$daftar->save();
+		$daftar->handleUploadFoto();
 
-		$userkey = '4888efcfc685';
-		$passkey = '467fd9ba6c1d7673de1cfc9b';
+		// $userkey = '4888efcfc685';
+		// $passkey = '467fd9ba6c1d7673de1cfc9b';
 		$telepon = request('notlp');
-		$message = 'Kode OTP anda '.'*'.$rand.'*'.' silahkan masukan ke aplikasi';
-		$url = 'https://console.zenziva.net/wareguler/api/sendWA/';
-		$curlHandle = curl_init();
-		curl_setopt($curlHandle, CURLOPT_URL, $url);
-		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-		curl_setopt($curlHandle, CURLOPT_POST, 1);
-		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-			'userkey' => $userkey,
-			'passkey' => $passkey,
-			'to' => $telepon,
-			'message' => $message
-		));
-		$results = json_decode(curl_exec($curlHandle), true);
-		curl_close($curlHandle);
+		// $message = 'Kode OTP anda '.'*'.$rand.'*'.' silahkan masukan ke aplikasi';
+		// $url = 'https://console.zenziva.net/wareguler/api/sendWA/';
+		// $curlHandle = curl_init();
+		// curl_setopt($curlHandle, CURLOPT_URL, $url);
+		// curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+		// curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+		// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+		// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+		// curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+		// curl_setopt($curlHandle, CURLOPT_POST, 1);
+		// curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+		// 	'userkey' => $userkey,
+		// 	'passkey' => $passkey,
+		// 	'to' => $telepon,
+		// 	'message' => $message
+		// ));
+		// $results = json_decode(curl_exec($curlHandle), true);
+		// curl_close($curlHandle);
 		$uuid = Crypt::encrypt($daftar->id);
 		return redirect('otp/'.$uuid)->with('success',' Kode OTP telah dikirim melalui Whatsapp ke nomor '.$telepon. ', silahkan cek Whastapp anda');
 
