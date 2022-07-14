@@ -20,18 +20,18 @@ use Carbon\Carbon;
 class AuthController extends Controller{
 
 	function Login(){
-		$now = Carbon::now()->format('H:i');
-		if(Carbon::now() <= '18:00'){
-			echo "sekarang malam";
-		} else{
-			echo "sekarang siang";
-		}
-		$hasil = 'Waktu sekarang '.$now;
+		// $now = Carbon::now()->format('H:i');
+		// if(Carbon::now() <= '18:00'){
+		// 	echo "sekarang malam";
+		// } else{
+		// 	echo "sekarang siang";
+		// }
+		// $hasil = 'Waktu sekarang '.$now;
 	
-		@dd($hasil);
+		// @dd($hasil);
 
 
-		$user =  Auth::User();
+		// $user =  Auth::User();
 		return view('login');
 	}
 
