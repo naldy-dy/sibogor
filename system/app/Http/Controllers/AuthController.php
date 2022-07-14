@@ -52,7 +52,7 @@ class AuthController extends Controller{
 				return back()->with('danger', 'Akun belum terverifikasi');
 			}
 		}else{                           
-			return redirect()->with('danger', 'Login Gagal, Silahkan periksa email atau password!');
+			return back()->with('danger', 'Login Gagal, Silahkan periksa email atau password!');
 		}
 		
 	}
