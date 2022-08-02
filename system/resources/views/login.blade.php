@@ -108,7 +108,7 @@ crossorigin=""></script>
                 />
                 <label class="form-check-label" for="form1Example3"> Remember me </label>
               </div>
-              <a href="#!">Forgot password?</a>
+              <a href="{{url('lupa-passwords')}}">Forgot password?</a>
             </div>
 
             <!-- Submit button -->
@@ -121,7 +121,7 @@ crossorigin=""></script>
             <a class="btn btn-danger btn-lg btn-block" style="background-color: #0D898D" href="{{url('daftar')}}" role="button">
         Daftar
             </a>
-            <a href="{{url('lupa-passwords')}}" style="float: right">Lupa Password ?</a>
+          
 
             </form>
           </div>

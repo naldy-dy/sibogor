@@ -51,19 +51,21 @@ crossorigin=""></script>
         </div>
         <div class="col-md-7 animated fadeInDown card card-body shadow col-lg-5 col-xl-5 offset-xl-1">
           <div class="divider d-flex align-items-center my-4">
-              <h3 class="text-center fw-bold mx-3 mb-0 text-muted">Kode OTP </h3>
+              <h3 class="text-center fw-bold mx-3 mb-0 text-muted">Ganti Password </h3>
             </div>
 
 
            @include('sub-admin.utils.notif')
-              <p>Masukan kode OTP yang telah dikirim ke whatsapp {{$user->notlp}},  <a href="{{url('otp/ganti-nomor',Crypt::encrypt($user->id))}}" style="color:#1BC4CA ">Klik disini</a> jika salah nomor</p>
-      
-          <form action="{{url('otp')}}" method="post">
+              <p>Masukan password baru anda, pastikan hanya anda yang mengetahui password tersebut !!!</p>
+        
+
+          <form action="{{url('new-passwords',$user->id)}}/change" method="post">
             @csrf
+            @method('PUT')
             <!-- Email input -->
            
             <div class="form-outline mb-4 mt-5">
-              <input type="text" name="kode" maxlength="6" value="{{old('kode')}}" id="form1Example13" class="form-control shadow" placeholder="Kode OTP" required />
+              <input type="text" name="passwords" maxlength="6" value="{{old('passwords')}}" id="form1Example13" class="form-control shadow" placeholder="Password Baru" required />
             </div>
 
             <!-- Submit button -->

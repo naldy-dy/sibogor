@@ -216,7 +216,7 @@
 											<img src="{{url('public')}}/{{$b->foto}}" alt="" class="img-fluid" width="60%">
 											<a class="post-title" data-toggle="modal" data-target="#baca{{$b->id}}"><h3 class="text-black">{{ucwords($b->judul)}}</h3></a>
 											<div class="col-md-8">
-											<p>{{ Str::limit($b->isi, 150) }}</p>
+												<p>{{ Str::limit($b->isi, 150) }}</p>
 											</div>
 											<!-- button baca -->
 											
@@ -314,46 +314,46 @@
 									</div>
 								</div>
 								{{$list_berita->links()}}
-								</div>
 							</div>
 						</div>
-						<script>
-							function myFunction2() {
-								var x = document.getElementById("inputPassword2");
-								if (x.type === "password") {
-									x.type = "text";
-								} else {
-									x.type = "password";
-								}
+					</div>
+					<script>
+						function myFunction2() {
+							var x = document.getElementById("inputPassword2");
+							if (x.type === "password") {
+								x.type = "text";
+							} else {
+								x.type = "password";
 							}
-							function myFunction1() {
-								var x = document.getElementById("inputPassword1");
-								if (x.type === "password") {
-									x.type = "text";
-								} else {
-									x.type = "password";
-								}
+						}
+						function myFunction1() {
+							var x = document.getElementById("inputPassword1");
+							if (x.type === "password") {
+								x.type = "text";
+							} else {
+								x.type = "password";
 							}
-							function myFunction3() {
-								var x = document.getElementById("inputPassword3");
-								if (x.type === "password") {
-									x.type = "text";
-								} else {
-									x.type = "password";
-								}
+						}
+						function myFunction3() {
+							var x = document.getElementById("inputPassword3");
+							if (x.type === "password") {
+								x.type = "text";
+							} else {
+								x.type = "password";
 							}
-						</script>
-						<!-- upload gambar -->
-						<script>
-							function fileValidation(){
-								var fileInput = document.getElementById('file');
-								var filePath = fileInput.value;
-								var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-								if(!allowedExtensions.exec(filePath)){
-									alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
-									fileInput.value = '';
-									return false;
-								}else{
+						}
+					</script>
+					<!-- upload gambar -->
+					<script>
+						function fileValidation(){
+							var fileInput = document.getElementById('file');
+							var filePath = fileInput.value;
+							var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+							if(!allowedExtensions.exec(filePath)){
+								alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+								fileInput.value = '';
+								return false;
+							}else{
         //Image preview
         if (fileInput.files && fileInput.files[0]) {
         	var reader = new FileReader();
@@ -366,10 +366,10 @@
 }
 </script>
 <script>
-							function fileValidation(){
-								var fileInput = document.getElementById('file1');
-								var filePath = fileInput.value;
-								var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+	function fileValidation(){
+		var fileInput = document.getElementById('file1');
+		var filePath = fileInput.value;
+		var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         //Image preview
         if (fileInput.files && fileInput.files[0]) {
         	var reader = new FileReader();
@@ -379,7 +379,7 @@
         	reader.readAsDataURL(fileInput.files[0]);
         }
     }
-}
+
 </script>
 
 @endsection

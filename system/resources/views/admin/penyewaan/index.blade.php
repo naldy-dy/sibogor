@@ -65,10 +65,10 @@
 													<button class="btn btn-info">Masuk Ruangan</button>
 
 
-														<div class="mt-5">
-															<b>QR Code</b> <br>
-															{!! QrCode::size(200)->generate($k->kode_transaksi); !!}
-														</div>
+													<div class="mt-5">
+														<b>QR Code</b> <br>
+														{!! QrCode::size(200)->generate($k->kode_transaksi); !!}
+													</div>
 												</div>
 											</div>
 										</div>
@@ -82,13 +82,13 @@
 						<td>
 
 							<div class="btn-group">
-								<form action="{{url('admin/penyewaan/status-terima',$k->id)}}" method="post">
+								<form action="{{url('admin/penyewaan/status-terima',$k->idp)}}" method="post">
 									@csrf
 									@method('PUT')
 									<button class="btn btn-success" onclick="return confirm('Yakin menerima penyewaan?')"><i class="fa fa-check"></i></button>
 								</form>
 
-								<form action="{{url('admin/penyewaan/status-tolak',$k->id)}}" method="post">
+								<form action="{{url('admin/penyewaan/status-tolak',$k->idp)}}" method="post">
 									@csrf
 									@method('PUT')
 									<button class="btn btn-danger" onclick="return confirm('Yakin menolak penyewaan?')"><i class="fa fa-times"></i></button>
@@ -99,7 +99,7 @@
 						</td>
 						<td class="text-center">{{ucwords($k->nama_penyewa)}}</td>
 						<!-- Modal -->
-						<div class="modal fade" id="bukti{{$k->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="bukti{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -121,7 +121,7 @@
 						</div>
 
 						<!-- info -->
-						<div class="modal fade" id="info{{$k->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="info{{$k->idp}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">

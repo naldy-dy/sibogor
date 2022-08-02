@@ -83,7 +83,14 @@
 							<td>{{ucwords($t->tgl)}}/{{$t->jam}}</td>
 							<td>{{ucwords($t->an)}}</td>
 							<td>Rp. {{number_format($t->tharga)}}</td>
-							<td> <button class="btn btn-primary btn-sm"> {{$t->status}}</button></td>
+							<td>
+								@if($t->status == 0)
+								<button class="btn btn-danger btn-sm">Ditolak</button>
+								@elseif($t->status == 4)
+								<button class="btn btn-primary btn-sm">Selesai</button>
+								@endif
+
+							</td>
 						</tr>
 						@endforeach
 					</tbody>

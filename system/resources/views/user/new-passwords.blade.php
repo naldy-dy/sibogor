@@ -56,9 +56,9 @@ crossorigin=""></script>
 
 
            @include('sub-admin.utils.notif')
-              <p>Masukan kode OTP yang telah dikirim ke whatsapp {{$user->notlp}},  <a href="{{url('otp/ganti-nomor',Crypt::encrypt($user->id))}}" style="color:#1BC4CA ">Klik disini</a> jika salah nomor</p>
+              <p>Masukan kode OTP yang telah dikirim ke whatsapp {{$user->notlp}},  <a href="{{url('otp/ganti-passwords',Crypt::encrypt($user->id))}}" style="color:#1BC4CA ">Klik disini</a> jika salah nomor</p>
       
-          <form action="{{url('otp')}}" method="post">
+          <form action="{{url('otp-passwords')}}" method="post">
             @csrf
             <!-- Email input -->
            

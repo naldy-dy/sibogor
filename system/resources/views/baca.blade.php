@@ -24,10 +24,10 @@
      <a href="https://www.facebook.com/sharer/sharer.php?u={{url()->current()}}" class="btn btn-primary" target="_blank"><i class="fa fa-facebook"></i></a>
      <a href="https://twitter.com/intent/tweet?url={{url()->current()}}" class="btn btn-info" target="_blank"><i class="fa fa-twitter"></i></a>
 
-    <div class="input-group mb-3" style="width: 50%">
-    <button class="btn btn-info" id="copyBtn"><i class="fa fa-copy"></i> Salin Url</button>
-    <input type="text" class="form-control"  value="{{url()->current()}}" id="copyText" readonly >
-  </div>
+     <div class="input-group mb-3" style="width: 50%">
+      <button class="btn btn-info" id="copyBtn"><i class="fa fa-copy"></i> Salin Url</button>
+      <input type="text" class="form-control"  value="{{url()->current()}}" id="copyText" readonly >
+    </div>
   </div>
 </div>
 </div>

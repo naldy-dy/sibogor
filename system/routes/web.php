@@ -48,7 +48,15 @@ Route::controller(AuthController::class)->group(function(){
         Route::get('daftar', 'register');
         Route::get('lupa-passwords', 'lupapasswords');
         Route::post('lupa-passwords', 'proseslupapasswords');
+        Route::get('otp-passwords/{id}', 'changepasswords');
+        Route::post('otp-passwords', 'changeotppasswords');
+
+        Route::get('new-passwords/{id}', 'newpassword');
+        Route::put('new-passwords/{user}/change', 'gantiam');
+
+
         Route::get('otp/{id}', 'otp');
+        Route::get('daftar-gedung', 'daftargedung');
         Route::get('otp/ganti-nomor/{id}', 'otpwhatsapp');
         Route::put('otp/{user}/ganti-nomor', 'prosessimpannomor');
         Route::post('otp', 'updateotp');

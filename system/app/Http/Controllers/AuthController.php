@@ -5,6 +5,9 @@ use Auth;
 use App\Models\User;
 use App\Models\Subadmin;
 use App\Models\Member;
+use App\Models\Kecamatan;
+use App\Models\Forgot;
+use App\Models\Kategori;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\sendMail;
 use App\Mail\VarificationEmail;
@@ -20,18 +23,6 @@ use Carbon\Carbon;
 class AuthController extends Controller{
 
 	function Login(){
-		// $now = Carbon::now()->format('H:i');
-		// if(Carbon::now() <= '18:00'){
-		// 	echo "sekarang malam";
-		// } else{
-		// 	echo "sekarang siang";
-		// }
-		// $hasil = 'Waktu sekarang '.$now;
-	
-		// @dd($hasil);
-
-
-		// $user =  Auth::User();
 		return view('login');
 	}
 
@@ -39,19 +30,26 @@ class AuthController extends Controller{
 
 		if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
 			$user =  Auth::User();
-			if($user->level == 'sub-admin') return redirect('sub-admin/beranda')->with('seccess','Login Berhasil sebagai Admin');
+
 			if($user->level == 2 AND $user->status_verifikasi == 1){
 				return redirect('admin/beranda')->with('seccess','Login Berhasil sebagai Admin');
-			} elseif($user->status_verifikasi != 1){
+			}elseif($user->status_verifikasi != 1){
 				Auth::logout();
 				return back()->with('danger', 'Akun belum terverifikasi');
 			}
+
+
 			if($user->level == 1 AND $user->status_verifikasi == 1){
 				return redirect()->intended('')->with('success', 'Login Berhasil');
 			}elseif($user->status_verifikasi != 1){
+				Auth::logout();
 				return back()->with('danger', 'Akun belum terverifikasi');
 			}
-		}else{                           
+		}
+
+		if(Auth::guard('subadmin')->attempt(['email' => request('email'), 'password' => request('password')])){
+				return redirect('sub-admin/beranda');
+			}else{                           
 			return back()->with('danger', 'Login Gagal, Silahkan periksa email atau password!');
 		}
 		
@@ -106,66 +104,109 @@ class AuthController extends Controller{
 	}
 
 	function proseslupapasswords(Request $request, User $user){
-		$request->validate([
-			'notlp'=>'required|exists:user,notlp'
-		]);
-
-
 		$notlp = request('notlp');
-		$id = User::where('notlp',$notlp)->get('id');
-		$uuid = Crypt::encrypt($id);
-
-// 		 $urlWhats = "whatsapp://send?text=\(msg)"
-// if let urlString = urlWhats.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
-//     if let whatsappURL = NSURL(string: urlString) {
-//         if UIApplication.sharedApplication().canOpenURL(whatsappURL) {
-//             UIApplication.sharedApplication().openURL(whatsappURL)
-//         } else {
-//             // Cannot open whatsapp
-//         }
-//     }
-// }
-
-		$userkey = '4888efcfc685';
-		$passkey = '467fd9ba6c1d7673de1cfc9b';
-		$telepon = request('notlp');
-		$message = $url.' Ini link anda';
-		$url = 'https://console.zenziva.net/wareguler/api/sendWA/';
-		$curlHandle = curl_init();
-		curl_setopt($curlHandle, CURLOPT_URL, $url);
-		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-		curl_setopt($curlHandle, CURLOPT_POST, 1);
-		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-			'userkey' => $userkey,
-			'passkey' => $passkey,
-			'to' => $telepon,
-			'message' => $message
-		));
-		$results = json_decode(curl_exec($curlHandle), true);
-		curl_close($curlHandle);
 		
+		$ceknomor = User::where('notlp',$notlp);
+	
+
+
+		if($ceknomor->count()){
+			$cek = User::where('notlp',$notlp)->first()->id;
+			$uuid = Crypt::encrypt($cek);
+			$rand = mt_rand(100000, 999999);
+
+			$forgot= new Forgot;
+			$forgot->notlp = request('notlp');
+			$forgot->kode = $rand;
+
+			$userkey = '4888efcfc685';
+			$passkey = '467fd9ba6c1d7673de1cfc9b';
+			$telepon = request('notlp');
+			$message = 'Kode OTP anda '.'*'.$rand.'*'.' silahkan masukan ke aplikasi';
+			$url = 'https://console.zenziva.net/wareguler/api/sendWA/';
+			$curlHandle = curl_init();
+			curl_setopt($curlHandle, CURLOPT_URL, $url);
+			curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+			curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+			curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+			curl_setopt($curlHandle, CURLOPT_POST, 1);
+			curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+				'userkey' => $userkey,
+				'passkey' => $passkey,
+				'to' => $telepon,
+				'message' => $message
+			));
+			$results = json_decode(curl_exec($curlHandle), true);
+			curl_close($curlHandle);
+
+			$forgot->save();
+			return redirect('otp-passwords/'.$uuid);
+		}else{
+			return back()->with('danger','Nomor tidak terdaftar, silahkan periksa kembali');
+		}
 
 		
+	}
+
+	function changepasswords($id){
+		$uuid = Crypt::decrypt($id);
+		$data['user'] = User::find($uuid);
+		return view('otp-password',$data);
+	}
+
+	function changeotppasswords(){
+		$kode = request('kode');		
+		$cekkode = Forgot::where('kode',$kode);
+		if($cekkode->count()){
+			$cekkode = Forgot::where('kode',$kode)->first()->notlp;
+			$id = User::where('notlp',$cekkode)->first()->id;
+
+			return redirect('new-passwords/'.$id)->with('success','Kode OTP berhasil, silahkan ganti password anda');
+		}else{
+				
+			return back()->with('danger','Kode OTP salah');
+		}
+	}
+
+	function newpassword($id){
+		$data['user'] = User::find($id);
+		return view('new-passwords',$data);
+	}
+
+	function gantiam(User $user){
+		$user->password = bcrypt(request('passwords'));
+		$user->save();
+		return redirect('login')->with('success','Password berhasil diganti, silahkan masuk');
+
 	}
 
 	function updateotp(){
 		$kode = Request('kode');
 		$cekkode = User::where('status_verifikasi',$kode);
 		if($cekkode->count()){
-			 User::where('status_verifikasi', $kode)
+			User::where('status_verifikasi', $kode)
 			->update([
-			'status_verifikasi' =>  1,
-		]);
+				'status_verifikasi' =>  1,
+			]);
+			if(Auth::user()->level == 1){
 
-
-		return redirect('login')->with('success','Akun berhasil terdaftar, silahkan login kembali !!!');
-		}else{
+				return redirect('/')->with('success','Selamat, Akun anda sudah terdaftar !!!');
+			}else{
+				return redirect('daftar-gedung')->with('silahkan daftarkan gedung anda');
+			}
+		}
+		else{
 			return back()->with('danger','Kode OTP salah, silahkan periksa kode OTP anda');
 		}
+	}
+
+	function daftargedung(){
+		$data['list_kategori'] = Kategori::all();
+		$data['list_kecamatan'] = Kecamatan::all();
+		$data['user'] = Auth::user();
+		return view('daftar-gedung',$data);
 	}
 
 
@@ -184,15 +225,17 @@ class AuthController extends Controller{
 
 
 		// Cek email
-	// $user = User::where('email', request('email'));
-	// if ($user->count()) {
-	// 	return back()->with('danger', 'Email sudah terdaftar, Silahkan login');
-	// 	// end
+	$user = User::where('email', request('email'));
+	if ($user->count()) {
+		return back()->with('danger', 'Email sudah terdaftar, Silahkan login');
+	}else{
+
+			// 	// end
 	// } else {
-		$request->validate([
-			'email' => 'required|unique:user',
-			'notlp' => 'required|unique:user',
-		]);
+		// $request->validate([
+		// 	'email' => 'required|unique:user',
+		// 	'notlp' => 'required|unique:user',
+		// ]);
 
 		$rand = mt_rand(100000, 999999);
 		$daftar = new User;
@@ -202,32 +245,39 @@ class AuthController extends Controller{
 		$daftar['password'] = bcrypt(request('password'));
 		$daftar['email'] = request('email');
 		$daftar['status_verifikasi'] = $rand;
-		$daftar->save();
 		$daftar->handleUploadFoto();
+		$daftar->save();
 
-		// $userkey = '4888efcfc685';
-		// $passkey = '467fd9ba6c1d7673de1cfc9b';
+		if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+
+		}
+
+		$userkey = '4888efcfc685';
+		$passkey = '467fd9ba6c1d7673de1cfc9b';
 		$telepon = request('notlp');
-		// $message = 'Kode OTP anda '.'*'.$rand.'*'.' silahkan masukan ke aplikasi';
-		// $url = 'https://console.zenziva.net/wareguler/api/sendWA/';
-		// $curlHandle = curl_init();
-		// curl_setopt($curlHandle, CURLOPT_URL, $url);
-		// curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-		// curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-		// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-		// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-		// curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-		// curl_setopt($curlHandle, CURLOPT_POST, 1);
-		// curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-		// 	'userkey' => $userkey,
-		// 	'passkey' => $passkey,
-		// 	'to' => $telepon,
-		// 	'message' => $message
-		// ));
-		// $results = json_decode(curl_exec($curlHandle), true);
-		// curl_close($curlHandle);
+		$message = 'Kode OTP anda '.'*'.$rand.'*'.' silahkan masukan ke aplikasi';
+		$url = 'https://console.zenziva.net/wareguler/api/sendWA/';
+		$curlHandle = curl_init();
+		curl_setopt($curlHandle, CURLOPT_URL, $url);
+		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+		curl_setopt($curlHandle, CURLOPT_POST, 1);
+		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+			'userkey' => $userkey,
+			'passkey' => $passkey,
+			'to' => $telepon,
+			'message' => $message
+		));
+		$results = json_decode(curl_exec($curlHandle), true);
+		curl_close($curlHandle);
 		$uuid = Crypt::encrypt($daftar->id);
 		return redirect('otp/'.$uuid)->with('success',' Kode OTP telah dikirim melalui Whatsapp ke nomor '.$telepon. ', silahkan cek Whastapp anda');
+
+
+	}
 
 
 		

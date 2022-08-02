@@ -19,10 +19,11 @@
 							<th>Level Akun</th>
 							<th>Email</th>
 							<th>No Handphone</th>
+							<th>Bergabung</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($list_user->skip(1) as $user)
+						@foreach($list_user as $user)
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>
@@ -33,9 +34,16 @@
 								 </div>
 							</td>
 							<td>{{ucwords($user->nama)}}</td>
-							<td>{{ucwords($user->level)}}</td>
+							<td>
+								@if($user->level == 1)
+								<span class="badge badge-sm badge-info">Pengguna</span>
+								@else
+								<span class="badge badge-sm badge-success">Admin Gedung</span>
+								@endif
+							</td>
 							<td>{{ucwords($user->email)}}</td>
 							<td>{{$user->notlp}}</td>
+							<td>{{$user->created_at}}</td>
 						</tr>
 						@endforeach
 					</tbody>

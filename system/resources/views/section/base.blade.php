@@ -71,8 +71,6 @@
 
 <body class="index-page bg-gray-200 animated fadeIn">
 
-
-
   <!-- Navbar -->
   <div class="container-fluid position-sticky z-index-sticky top-0">
     <div class="row">

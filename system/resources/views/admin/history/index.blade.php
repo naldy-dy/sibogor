@@ -5,7 +5,7 @@
 	<div class="card shadow">
 		<div class="card-header d-sm-flex d-block pb-0 border-0">
 			<div class="mr-auto pr-3 mb-sm-0 mb-3">
-				<h4 class="text-black fs-20">Data Penyewaan</h4>
+				<h4 class="text-black fs-20">Data Histori Penyewaan</h4>
 			</div>
 		</div>
 	</div>
@@ -99,7 +99,7 @@
 											</div>
 										</div>
 										<h3>Gedung : {{ucwords($k->nama_gedung)}}</h3><hr>
-										<p> Nama Penyea : <b>{{ucwords($k->nama_penyewa)}}</b> <br>
+										<p> Nama Penyewa : <b>{{ucwords($k->nama_penyewa)}}</b> <br>
 											Kode Boking :<b> {{strtoupper($k->kode_transaksi)}}</b> <br>
 											Metode Pembayaran : <b>{{ucwords($k->nama_transaksi)}}</b><br>
 											Akun Penerima : <b>{{strtoupper($k->an)}}</b> <br>

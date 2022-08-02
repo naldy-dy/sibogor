@@ -148,7 +148,7 @@ marker.on('dragend', function(event){
 var posisi = document.querySelector("[name=posisi]");
 map.on("click", function(event){
 	var lat = event.latlng.lat;
-	var lng = event.latlng.lat;
+	var lng = event.latlng.lng;
 
 	if(!marker)
 	{

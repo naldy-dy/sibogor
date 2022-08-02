@@ -56,12 +56,12 @@
 
 
             <p>Masukan Nomor telepon anda dan pastikan nomor tersebut sudah terdaftar di wplikasi whatsapp</p>
-
+            @include('admin.utils.notif')
             <form action="{{url('lupa-passwords')}}" method="post">
               @csrf
               <!-- Email input -->
               <div class="form-outline mb-4 mt-5">
-                <input type="notlp" name="notlp" value="{{old('notlp')}}" id="form1Example13" class="form-control shadow" placeholder="Nomor Hp/Whatsapp" />
+                <input type="notlp" name="notlp" value="{{old('notlp')}}" required="" id="form1Example13" class="form-control shadow" placeholder="Nomor Hp/Whatsapp" />
               </div>
 
 

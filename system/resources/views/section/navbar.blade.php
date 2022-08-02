@@ -78,10 +78,7 @@ if(Route::current()->uri == $route) return 'active';
           <a href="{{url('pembayaran')}}" class="dropdown-item border-radius-md">
             <span>Masuk Dashboard</span>
           </a>
-          @elseif(Auth::guard('subadmin'))
-          <a href="{{url('sub-admin/beranda')}}" class="dropdown-item border-radius-md">
-            <span>Masuk Dashboard</span>
-          </a>
+        
           @else(Auth::user()->level == "2")
           <a href="{{url('admin/beranda')}}" class="dropdown-item border-radius-md">
             <span>Masuk Dashboard</span>

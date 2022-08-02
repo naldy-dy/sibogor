@@ -6,9 +6,9 @@
 		<div class="card-body">
 			<div class="">
 				<h4 class="text-black fs-20">Galeri Gedung
-				<button type="button" class="btn btn-primary btn-sm float-right" style="float: right;" data-toggle="modal" data-target="#exampleModal">
-					<i class="fa fa-plus"></i> Upload Galeri
-				</button>
+					<button type="button" class="btn btn-primary btn-sm float-right" style="float: right;" data-toggle="modal" data-target="#exampleModal">
+						<i class="fa fa-plus"></i> Upload Galeri
+					</button>
 				</h4>
 
 
@@ -26,20 +26,15 @@
 							<div class="modal-body">
 								<form action="{{url('admin')}}/galeri/create" method="post" enctype="multipart/form-data">
 									@csrf
-									<div class="form-group">
-										<select name="id_gedung" required="" id="" class="form-control shadow">
-											<option value="" hidden="">--Pilih Gedung--</option>
-											@foreach($list_gedung as $g)
-											<option value="{{$g->id}}">{{ucwords($g->nama)}}</option>
-											@endforeach
-										</select>
-									</div>
+									@foreach($list_gedung as $g)
+									<input type="" value="{{$g->id}}" name="id_gedung">
+									@endforeach
 
 									<div class="form-group">
-                <input type="file" name="foto" class="form-control mt-3 shadow" style="margin-bottom: 10px;" id="file1" onchange="return fileValidation()" accept="image/*" required> 
+										<input type="file" name="foto" class="form-control mt-3 shadow" style="margin-bottom: 10px;" id="file1" onchange="return fileValidation()" accept="image/*" required> 
 									</div>
 
-										<div id="imagePreview1"></div>
+									<div id="imagePreview1"></div>
 									<button class="btn btn-info float-right"><i class="fa fa-upload"></i> Upload</button>
 
 								</form>
@@ -71,7 +66,7 @@
 					<div class="shadow m-1">
 						<img src="{{url('public')}}/{{$galeri->foto}}" width="100%" height="200px">
 					</div>
-						@include('admin.utils.hapus', ['url' =>url('admin/galeri', $galeri->id)])
+					@include('admin.utils.hapus', ['url' =>url('admin/galeri', $galeri->id)])
 				</div>
 				@endforeach
 			</div>
@@ -81,19 +76,19 @@
 
 
 <script>
-  function fileValidation(){
-    var fileInput = document.getElementById('file1');
-    var filePath = fileInput.value;
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+	function fileValidation(){
+		var fileInput = document.getElementById('file1');
+		var filePath = fileInput.value;
+		var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
         //Image preview
         if (fileInput.files && fileInput.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            document.getElementById('imagePreview1').innerHTML = '<img src="'+e.target.result+'" class="shadow" style="width:50%; border-radius:10px;"/>';
-          };
-          reader.readAsDataURL(fileInput.files[0]);
+        	var reader = new FileReader();
+        	reader.onload = function(e) {
+        		document.getElementById('imagePreview1').innerHTML = '<img src="'+e.target.result+'" class="shadow" style="width:50%; border-radius:10px;"/>';
+        	};
+        	reader.readAsDataURL(fileInput.files[0]);
         }
-      }
-    </script>
+    }
+</script>
 @endsection
 

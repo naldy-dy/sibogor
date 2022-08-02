@@ -10,6 +10,7 @@ use App\Models\Penyewaan;
 use App\Models\Kategori;
 use App\Models\Berita;
 use App\Models\Kritik;
+use App\Models\Pengunjung;
 use App\Models\AdminTransaksi;
 use Faker;
 use DB;
@@ -34,7 +35,7 @@ use App\Mail\sendMailBoking;
 class UserController extends Controller{
 
 
-  function index(){
+  function index(Request  $request){
    $data['user'] = Auth::user();
    $data['hitung_gedung'] = Gedung::all()->count('id');
    $data['hitung_user'] = User::all()->count('id');
@@ -45,6 +46,21 @@ class UserController extends Controller{
    ->join('kecamatan', 'kecamatan.id', '=', 'gedung.id_kecamatan')
    ->join('kategori', 'kategori.id', '=', 'gedung.id_kategori')
    ->get();
+
+//    $ip = $request->ip();
+//    $now = Carbon::now()->format('d-m-Y');
+
+// $tgl = Pengunjung::where('tanggal',$now);
+// $ip = Pengunjung::where('ip',$ip);
+// @dd($tgl, $ip);
+  
+//    $pengunjung = new Pengunjung;
+//    $pengunjung->ip = $ip;
+//    $pengunjung->tanggal = $now;
+//    $pengunjung->save();
+
+
+
    return view('index', $data);
  }
 
@@ -217,7 +233,8 @@ function form(Gedung $gedung){
     //     ->get();
   return view('form-boking', $data);
 }
-// Str::random(5).'-'.Str::random(5).'-'.Str::random(5);
+
+
 // mengisi form penyewaan
 function formSewa(){
 
@@ -243,34 +260,9 @@ function formSewa(){
   $penyewaan->status = 1;
   $penyewaan->foto = 'Belum Melakukan Pembayaran';
   $penyewaan->save();
-
-
-// $userkey = '4888efcfc685';
-// $passkey = '467fd9ba6c1d7673de1cfc9b';
-$telepon = request('admin');
-// $image_link = 'https://picsum.photos/id/995/200/300.jpg';
-// $message  = '*'.$kode.'*'.' Seseorang telah melakukan pesana ke gedung anda atas nama '.'*'.request('an').'*'.' silahkan cek pesanan di aplikasi sibogor';
-// $url = 'https://console.zenziva.net/wareguler/api/sendWA/';
-// $curlHandle = curl_init();
-// curl_setopt($curlHandle, CURLOPT_URL, $url);
-// curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-// curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-// curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-// curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-// curl_setopt($curlHandle, CURLOPT_POST, 1);
-// curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
-//     'userkey' => $userkey,
-//     'passkey' => $passkey,
-//     'to' => $telepon,
-//     'message' => $message
-// ));
-// $results = json_decode(curl_exec($curlHandle), true);
-// curl_close($curlHandle);
-
   return redirect('pembayaran')->with('success', 'Data Berhasil ditambah');
-}
 
+}
 // User page------------------
 
 function beranda(){
@@ -329,7 +321,7 @@ function history(){
  ->join('gedung', 'gedung.id', '=', 'penyewaan.id_gedung')
  ->where('id_user',Auth::id())
  ->where('tgl','>',$now)
- ->where('status', 4)
+ ->whereBetween('status', [0, 4])
  ->orderBy('tgl', 'DESC')
  ->get();
  return view('user.history.index',$data);

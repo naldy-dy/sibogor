@@ -17,7 +17,7 @@
 					<img src="{{url('public')}}/{{$pemilik->foto}}" width="100%" alt="">
 				</div>
 
-				<div class="col-md-9">
+				<div class="col-md-9 table-responsive">
 					<table class="table table-hover">
 						<tr class="bg-primary">
 							<td colspan="2"><b style="color: #ffffff">Profil Admin Gedung</b></td>
@@ -39,9 +39,8 @@
 							<td>: {{ucwords($pemilik->created_at)}}</td>
 						</tr>
 						<tr>
-							<th>Kontak</th>
-							<td>: <a href="https://wa.me/62{{$pemilik->notlp}}" target="_blank" class="btn btn-success"><i class="fa fa-whatsapp"></i> Whatsapp</a>
-							<a href="mailto:{{$pemilik->email}}?subject=SIBOGOR&body=" class="btn btn-info"><i class="fa fa-envelope-o"></i> Email</a></td>
+							<td colspan="2"> <a href="https://wa.me/62{{$pemilik->notlp}}" target="_blank" class="btn shadow btn-success"><i class="fa fa-whatsapp"></i> Whatsapp</a>
+							<a href="mailto:{{$pemilik->email}}?subject=SIBOGOR&body=" class="btn shadow btn-info"><i class="fa fa-envelope-o"></i> Email</a></td>
 						</tr>
 					</table>
 				</div>

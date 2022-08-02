@@ -19,10 +19,11 @@
 							<th>Level Akun</th>
 							<th>Email</th>
 							<th>No Handphone</th>
+							<th>Bergabung</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($list_user->skip(1) as $user)
+						@foreach($list_user as $user)
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>
@@ -36,6 +37,7 @@
 							<td>{{ucwords($user->level)}}</td>
 							<td>{{ucwords($user->email)}}</td>
 							<td>{{$user->notlp}}</td>
+							<td>{{$user->created_at}}</td>
 						</tr>
 						@endforeach
 					</tbody>

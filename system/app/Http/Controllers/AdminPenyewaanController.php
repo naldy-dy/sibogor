@@ -26,7 +26,7 @@ class AdminPenyewaanController extends Controller{
       ->join('admin_transaksi','admin_transaksi.id','=','penyewaan.id_pembayaran')
       ->join('transaksi','transaksi.id','=','admin_transaksi.id_transaksi')
       ->join('gedung','gedung.id','=','penyewaan.id_gedung')
-      ->select('penyewaan.*','penyewaan.id as id','penyewaan.foto as bukti','penyewaan.an as nama_penyewa',
+      ->select('penyewaan.*','penyewaan.id as idp','penyewaan.foto as bukti','penyewaan.an as nama_penyewa',
         'admin_transaksi.*','admin_transaksi.nama as an','admin_transaksi.no as nomor_transaksi',
         'transaksi.*','transaksi.nama as nama_transaksi',
         'gedung.*','gedung.nama as nama_gedung',DB::raw('(gedung.harga * penyewaan.lama) as tharga')

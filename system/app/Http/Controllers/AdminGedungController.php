@@ -16,17 +16,17 @@ use Illuminate\Support\Carbon;
 
 class AdminGedungController extends Controller{
 
-     function index(){
+   function index(){
       $data['user'] = Auth::user();
       $id_admin = Auth::id();
       $data['list_gedung'] = Gedung::select('gedung.*','gedung.id as idg','kategori.icon as ic','kategori.kategori as kategori')
-            ->join('kecamatan', 'kecamatan.id', '=', 'gedung.id_kecamatan')
-            ->join('kategori', 'kategori.id', '=', 'gedung.id_kategori')
-             ->where('id_admin',$id_admin)
-            ->get();
+      ->join('kecamatan', 'kecamatan.id', '=', 'gedung.id_kecamatan')
+      ->join('kategori', 'kategori.id', '=', 'gedung.id_kategori')
+      ->where('id_admin',$id_admin)
+      ->get();
       return view('admin.gedung.index',$data);
-}
-function create(){
+  }
+  function create(){
     $data['user'] = Auth::user();
     $data['list_kategori'] = Kategori::all();
     $data['list_kecamatan'] = Kecamatan::all();

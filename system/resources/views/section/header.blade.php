@@ -1,6 +1,6 @@
 
 
-  <header class=" min-vh-75 relative" id="carouselExampleIndicators" style="background-image: url('{{url('public')}}/assets-user/img/wall.jpg')">
+  <header class="min-vh-75 relative img-fluid" id="carouselExampleIndicators" style="background-image: url('{{url('public')}}/assets-user/img/wall.jpg'); background-repeat: no-repeat; margin-top: auto;">
 
      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
       <div class="carousel-inner">
@@ -8,8 +8,9 @@
           <span class="mask"></span>
           <div class="container pt-6">
             <div class="row pt-6">
-              <div class="col-lg-7 pt-6 text-center mx-auto">
-                <h1 class="text-white pt-3 mt-n5">CARI GEDUNG OLAHRAGA FAVORITMU DI SINI</h1>
+              <div class="col-lg-7 text-center mx-auto">
+                @include('admin.utils.notif')
+                <h1 class="text-white pt-3">CARI GEDUNG OLAHRAGA FAVORITMU DI SINI</h1>
                 <a href="{{url('maps')}}" class="btn btn-warning shadow-sm fs-16" style="font-weight: 600;color: #444444;"><i class=" fa fa-search"></i> Cari Gedung</a>
               </div>
             </div>

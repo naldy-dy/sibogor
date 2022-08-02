@@ -97,8 +97,26 @@
 
 									@foreach($list_galeri as $g)
 									<div class="col-md-6 col-6">
+										<a data-toggle="modal" data-target="#detail{{$g->id}}">
 										<img src="{{url('public')}}/{{$g->foto}}" class="pt-3" width="100%" height="150px">
+									</a>
+									<!-- Modal -->
+								<div class="modal fade" id="detail{{$g->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="">
+											<div class="">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true" style="color:#ffffff">&times;</span>
+												</button>
+											</div>
+											<div class="">
+												<img src="{{url('public')}}/{{$g->foto}}" class="mb-3" width="100%">
+											</div>
+										</div>
 									</div>
+								</div>
+									</div>
+
 									@endforeach
 								</div>
 

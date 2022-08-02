@@ -32,7 +32,7 @@ class AdminHistoryController extends Controller{
       ->orderBy('penyewaan.id','desc')
       ->where('penyewaan.id_admin', Auth::id())
       ->where('penyewaan.tgl','>',$now)
-      ->where('status', 4)
+      ->whereBetween('status', [0,4])
       ->get();
       return view('admin.history.index',$data);
 }
